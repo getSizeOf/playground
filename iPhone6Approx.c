@@ -55,7 +55,7 @@ double lensToDist(double lensPos)
 		return (((5868*(pow(lensPos,5.0)))-(8131*(pow(lensPos,4.0)))+(4139*(pow(lensPos,3.0)))-(860.4*(pow(lensPos,2.0)))+(80.56 * lensPos) + 7.717)/100);
 	}
 	else{
-		return (((3036.667*lensPos)-2006.3)/100);
+		return (0.002405* (pow(M_E , (9.012* lensPos))));
 	}
 }
 
@@ -75,6 +75,7 @@ double focalLengthComp(double dist)
 	}
 	else
 		return (-0.008143*dist + 3.201)/1000;
+		
 			
 }
 

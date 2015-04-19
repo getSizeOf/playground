@@ -8,8 +8,6 @@ double focalLengthComp(double dist);
 double objectHeight(double dist, int pixelHeight, double sensorHeight, double fLenEff, double subHeight);
 double objectWidth(double dist, int pixelWidth, double sensorWidth, double fLenEff, double subWidth);
 double lensToDist(double lensPos);
-//double objectWidth2(double dist, int pixelWidth, double sensorWidth, double fLenEff, double subWidth);
-
 
 int main()
 {
@@ -41,7 +39,6 @@ int main()
 
 	dist = lensToDist(lensPos); //Calculates dist based on the lens position
 	fLenEff = focalLengthComp(dist); //defines the effective focal length, compensated for focal distance.
-	printf("%f\n", fLenEff);
 
 	objHeight = objectHeight(dist, pixelHeight, sensorHeight, fLenEff, subHeight); //finds the estimated actual object height, prints
 	printf("ObjectHeight is: %f meters\n",objHeight);
@@ -55,9 +52,7 @@ int main()
 double lensToDist(double lensPos)
 {
 	if(lensPos <= 0.69){
-		double val = (((5868*(pow(lensPos,5.0)))-(8131*(pow(lensPos,4.0)))+(4139*(pow(lensPos,3.0)))-(860.4*(pow(lensPos,2.0)))+(80.56 * lensPos) + 7.717)/100);
-		printf("%f\n", val);
-		return val;
+		return (((5868*(pow(lensPos,5.0)))-(8131*(pow(lensPos,4.0)))+(4139*(pow(lensPos,3.0)))-(860.4*(pow(lensPos,2.0)))+(80.56 * lensPos) + 7.717)/100);
 	}
 	else{
 		return (((3036.667*lensPos)-2006.3)/100);
@@ -75,17 +70,12 @@ double focalLengthComp(double dist)
 	A focal length corrective curve can be found by measuring the lens angle of view (alpha) over a wide range of focal distances -
 	ideally from the near-focus point to the far focus (infinity) point - and then creating a fit equation.  
 	*/ 
-	double val;
 	if(dist <= .175){
-		val = ((-657.274*(pow(dist,4.0))+(254.198*(pow(dist,3.0)))+(21.39*(pow(dist,2.0)))-(16.748 * dist) + 4.739)/1000);
-		// return val;
+		return ((-657.274*(pow(dist,4.0))+(254.198*(pow(dist,3.0)))+(21.39*(pow(dist,2.0)))-(16.748 * dist) + 4.739)/1000);
 	}
 	else
-		val = (-0.008143*dist + 3.201)/1000;
-	printf("focalLen - %f", val);
-	return val;	
+		return (-0.008143*dist + 3.201)/1000;
 			
-	
 }
 
 /* objectHeight
@@ -94,27 +84,7 @@ Calculates the real height of specific in-focus subject given other parameters. 
 
 double objectHeight(double dist, int pixelHeight, double sensorHeight, double fLenEff, double subHeight)
 {
-
-	//printf("Effective Flen is: %f mm\n",fLenEff);
-
-	//double focusAngle = ((2.0 * atan((sensorHeight / (2.0 * fLenEff)))));
-
-	//printf("Angle is: %f\n",focusAngle);
-	printf("dist - %f pxH = %i sesnH %f fLenEff %f subH %f\n", dist, pixelHeight, sensorHeight, fLenEff, subHeight);
-	double halfHeight = sensorHeight / fLenEff;
-
-	//printf("HalfHeight is: %f\n",halfHeight);
-
-	double planeHeight = ((halfHeight * dist) / pixelHeight);
-
-	//printf("PlaneHeight is: %f\n",planeHeight);
-
-	double objHeight = (planeHeight * subHeight);
-
-	return objHeight;
-
-
-
+	return (sensorHeight * dist * subHeight) / (fLenEff * pixelHeight);
 }
 
 /* objectWidth
@@ -123,18 +93,7 @@ Calculates the real width of specific in-focus subject given other parameters.  
 
 double objectWidth(double dist, int pixelWidth, double sensorWidth, double fLenEff, double subWidth)
 {
-
-
-	double focusAngle = ((2.0 * atan((sensorWidth / (2.0 * fLenEff)))));
-
-	double halfWidth = (2.0 * tan((focusAngle)/2.0));
-	
-	double planeWidth = ((halfWidth * dist) / pixelWidth);
-	
-	double objWidth = (planeWidth * subWidth);
-
-	return objWidth;
-
+	return (sensorWidth * dist * subWidth) / (fLenEff * pixelWidth);
 }
 
 

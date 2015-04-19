@@ -75,12 +75,15 @@ double focalLengthComp(double dist)
 	A focal length corrective curve can be found by measuring the lens angle of view (alpha) over a wide range of focal distances -
 	ideally from the near-focus point to the far focus (infinity) point - and then creating a fit equation.  
 	*/ 
- 
-		if(dist <= .175){
-			return ((-657.274*(pow(dist,4.0))+(254.198*(pow(dist,3.0)))+(21.39*(pow(dist,2.0)))-(16.748 * dist) + 4.739)/1000);
-		}
-		
-		return (-0.008143*dist + 3.201);	
+	double val;
+	if(dist <= .175){
+		val = ((-657.274*(pow(dist,4.0))+(254.198*(pow(dist,3.0)))+(21.39*(pow(dist,2.0)))-(16.748 * dist) + 4.739)/1000);
+		// return val;
+	}
+	else
+		val = (-0.008143*dist + 3.201)/1000;
+	printf("focalLen - %f", val);
+	return val;	
 			
 	
 }
@@ -94,11 +97,11 @@ double objectHeight(double dist, int pixelHeight, double sensorHeight, double fL
 
 	//printf("Effective Flen is: %f mm\n",fLenEff);
 
-	double focusAngle = ((2.0 * atan((sensorHeight / (2.0 * fLenEff)))));
+	//double focusAngle = ((2.0 * atan((sensorHeight / (2.0 * fLenEff)))));
 
 	//printf("Angle is: %f\n",focusAngle);
-
-	double halfHeight = (2.0 * tan((focusAngle)/2.0));
+	printf("dist - %f pxH = %i sesnH %f fLenEff %f subH %f\n", dist, pixelHeight, sensorHeight, fLenEff, subHeight);
+	double halfHeight = sensorHeight / fLenEff;
 
 	//printf("HalfHeight is: %f\n",halfHeight);
 
